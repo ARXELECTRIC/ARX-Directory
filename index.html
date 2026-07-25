@@ -11,7 +11,7 @@
         @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .link-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
         .link-card:hover { transform: translateY(-4px); }
-        #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 0px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; }
+        #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 0px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; will-change: transform, filter; }
         #fade-overlay { position: fixed; inset: 0; background-color: black; z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
     </style>
 </head>
@@ -38,8 +38,6 @@
                 { emoji: "📸", url: "https://www.instagram.com/arx.cr2" },
                 { emoji: "🎵", url: "https://on.soundcloud.com/CebSMWxtvQeHV45011" }
             ],
-            // ADJUST 'objectPosition' BELOW: 
-            // '50% 0%' is top, '50% 50%' is center, '50% 100%' is bottom
             links: [
                 { label: "My Website", url: "https://arx-uk.com/home", img: "website.jpg", objectPosition: "50% 50%" },
                 { label: "Instagram", url: "https://www.instagram.com/arx.cr2", img: "instagram.jpeg", objectPosition: "50% 38%" },
@@ -55,14 +53,14 @@
         const container = document.getElementById('links-container');
         CONFIG.links.forEach(link => {
             container.innerHTML += `
-                <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-lg shadow-lg border border-white/20" onclick="transition(event, '${link.url}')">
+                <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-lg shadow-lg border border-white/20" onclick="transition(event, '${link.url}', '${link.label}')">
                     <div class="p-4 text-center border-b border-white/10"><span class="font-semibold text-white">${link.label}</span></div>
                     <img src="${link.img}" class="w-full h-32 object-cover card-img" style="object-position: ${link.objectPosition}" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=Err:${link.img}'">
                 </div>
             `;
         });
 
-        function transition(event, url) {
+        function transition(event, url, label) {
             const card = event.currentTarget;
             const img = card.querySelector('.card-img');
             const rect = img.getBoundingClientRect();
@@ -84,7 +82,15 @@
             transBox.style.top = '0px';
             transBox.style.width = '100vw';
             transBox.style.height = '100vh';
-            transBox.style.filter = 'blur(20px)';
+            
+            if (label === "SoundCloud") {
+                fadeOverlay.style.backgroundColor = '#f0f9ff';
+                // Ice effect: blur + crystalline contrast + blue tint + fracture-like distortion
+                transBox.style.filter = 'blur(20px) contrast(200%) brightness(150%) hue-rotate(180deg) saturate(200%)';
+            } else {
+                fadeOverlay.style.backgroundColor = 'black';
+                transBox.style.filter = 'blur(20px)';
+            }
             
             setTimeout(() => { window.location.href = url; }, 750);
         }
