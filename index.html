@@ -11,9 +11,9 @@
         @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
         .link-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
-        .link-card:hover { transform: translateY(-4px) scale(1.02); }
+        .link-card:hover { transform: translateY(-2px); }
         
-        #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 1rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; }
+        #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 0.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; }
         #fade-overlay { position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
     </style>
 </head>
@@ -27,29 +27,41 @@
             <div class="w-32 h-32 mx-auto rounded-full bg-white/10 border-4 border-white/30 shadow-2xl flex items-center justify-center overflow-hidden mb-5">
                 <img src="11.png" alt="Profile" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/128x128/1e293b/white?text=Arx'">
             </div>
-            <h1 class="text-3xl font-bold text-white mb-1 tracking-tight">arx.cr2</h1>
+            <h1 class="text-3xl font-bold text-white mb-4 tracking-tight">arx.cr2</h1>
+            
+            <!-- Social Icons -->
+            <div class="flex justify-center gap-6 text-white text-2xl mb-8">
+                <a href="#" class="hover:opacity-75 transition-opacity">📸</a>
+                <a href="#" class="hover:opacity-75 transition-opacity">🎵</a>
+                <a href="#" class="hover:opacity-75 transition-opacity">✖️</a>
+            </div>
         </div>
 
-        <div id="links-container" class="space-y-6"></div>
+        <div id="links-container" class="space-y-4"></div>
 
         <div class="mt-12 text-center text-white/50 text-sm">© 2026 arx.cr2</div>
     </div>
 
     <script>
         const CONFIG = {
+            // Edit your links here. 
+            // The images will automatically look for a filename matching the label (e.g., "Instagram" -> "Instagram.png")
             links: [
-                { label: "My Website", url: "https://your-main-website.com", img: "site.jpg" },
-                { label: "SoundCloud", url: "https://soundcloud.com/your-profile", img: "https://placehold.co/600x200/f97316/white?text=SoundCloud" },
-                { label: "Discord Server", url: "https://discord.gg/your-invite", img: "https://placehold.co/600x200/5865F2/white?text=Discord" }
+                { label: "Main Website", url: "https://your-main-website.com" },
+                { label: "Instagram", url: "https://instagram.com/your-profile" },
+                { label: "SoundCloud", url: "https://soundcloud.com/your-profile" },
+                { label: "Discord", url: "https://discord.gg/your-invite" }
             ]
         };
 
         const container = document.getElementById('links-container');
         CONFIG.links.forEach(link => {
+            // Uses the label as the filename for the image
+            const imgPath = `${link.label}.png`;
             container.innerHTML += `
-                <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-2xl shadow-lg border border-white/20" onclick="transition(event, '${link.url}')">
+                <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-lg shadow-lg border border-white/20" onclick="transition(event, '${link.url}')">
                     <div class="p-4 text-center border-b border-white/10"><span class="font-semibold text-white">${link.label}</span></div>
-                    <img src="${link.img}" class="w-full h-32 object-cover card-img">
+                    <img src="${imgPath}" class="w-full h-32 object-cover card-img" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=${link.label}'">
                 </div>
             `;
         });
@@ -58,7 +70,6 @@
             const card = event.currentTarget;
             const img = card.querySelector('.card-img');
             const rect = img.getBoundingClientRect();
-            
             const transBox = document.getElementById('transition-box');
             const fadeOverlay = document.getElementById('fade-overlay');
             
@@ -82,7 +93,6 @@
         }
 
         window.onpageshow = (event) => {
-            // event.persisted is true if the page is being loaded from the cache
             document.getElementById('fade-overlay').style.opacity = '0';
             document.getElementById('transition-box').style.display = 'none';
         };
