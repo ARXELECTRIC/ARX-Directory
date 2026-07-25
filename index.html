@@ -9,12 +9,11 @@
     <style>
         body { font-family: 'Inter', sans-serif; background: linear-gradient(-45deg, #1e3a8a, #0ea5e9, #10b981, #f59e0b, #7c3aed); background-size: 400% 400%; animation: gradient 7s ease infinite; min-height: 100vh; overflow-x: hidden; }
         @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        
         .link-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
-        .link-card:hover { transform: translateY(-2px); }
+        .link-card:hover { transform: translateY(-4px) scale(1.01); }
         
         #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 0.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; }
-        #fade-overlay { position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
+        #fade-overlay { position: fixed; inset: 0; background-color: black; z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
     </style>
 </head>
 <body class="antialiased p-4">
@@ -44,23 +43,31 @@
 
     <script>
         const CONFIG = {
-            // Edit your links here. 
-            // The images will automatically look for a filename matching the label (e.g., "Instagram" -> "Instagram.png")
             links: [
-                { label: "Main Website", url: "https://your-main-website.com" },
-                { label: "Instagram", url: "https://instagram.com/your-profile" },
-                { label: "SoundCloud", url: "https://soundcloud.com/your-profile" }
+                { 
+                    label: "Main Website", 
+                    url: "https://your-main-website.com", 
+                    img: "https://placehold.co/600x200/1e293b/white?text=Main+Website" 
+                },
+                { 
+                    label: "Instagram", 
+                    url: "https://instagram.com/your-profile", 
+                    img: "https://placehold.co/600x200/e1306c/white?text=Instagram" 
+                },
+                { 
+                    label: "SoundCloud", 
+                    url: "https://soundcloud.com/your-profile", 
+                    img: "https://placehold.co/600x200/f97316/white?text=SoundCloud" 
+                }
             ]
         };
 
         const container = document.getElementById('links-container');
         CONFIG.links.forEach(link => {
-            // Uses the label as the filename for the image
-            const imgPath = `${link.label}.png`;
             container.innerHTML += `
                 <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-lg shadow-lg border border-white/20" onclick="transition(event, '${link.url}')">
                     <div class="p-4 text-center border-b border-white/10"><span class="font-semibold text-white">${link.label}</span></div>
-                    <img src="${imgPath}" class="w-full h-32 object-cover card-img" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=${link.label}'">
+                    <img src="${link.img}" class="w-full h-32 object-cover card-img" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=${link.label}'">
                 </div>
             `;
         });
