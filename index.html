@@ -11,20 +11,13 @@
         @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .link-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
         .link-card:hover { transform: translateY(-4px); }
-        #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 0px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; will-change: transform, filter; }
+        #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 0px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; }
         #fade-overlay { position: fixed; inset: 0; background-color: black; z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
-        /* Frosty pattern for the transition */
-        .frost-layer {
-            position: fixed; inset: 0; z-index: 10000; opacity: 0; pointer-events: none;
-            background: linear-gradient(135deg, rgba(200, 230, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(180, 220, 255, 0.4) 100%);
-            transition: opacity 0.8s ease;
-        }
     </style>
 </head>
 <body class="antialiased p-4">
 
     <div id="fade-overlay"></div>
-    <div id="frost-layer" class="frost-layer"></div>
     <img id="transition-box" src="" alt="">
 
     <div class="max-w-md mx-auto w-full mt-10">
@@ -45,6 +38,8 @@
                 { emoji: "📸", url: "https://www.instagram.com/arx.cr2" },
                 { emoji: "🎵", url: "https://on.soundcloud.com/CebSMWxtvQeHV45011" }
             ],
+            // ADJUST 'objectPosition' BELOW: 
+            // '50% 0%' is top, '50% 50%' is center, '50% 100%' is bottom
             links: [
                 { label: "My Website", url: "https://www.arx-uk.com/home", img: "website.jpg", objectPosition: "50% 50%" },
                 { label: "Instagram", url: "https://www.instagram.com/arx.cr2", img: "instagram.jpeg", objectPosition: "50% 38%" },
@@ -60,20 +55,19 @@
         const container = document.getElementById('links-container');
         CONFIG.links.forEach(link => {
             container.innerHTML += `
-                <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-lg shadow-lg border border-white/20" onclick="transition(event, '${link.url}', '${link.label}')">
+                <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-lg shadow-lg border border-white/20" onclick="transition(event, '${link.url}')">
                     <div class="p-4 text-center border-b border-white/10"><span class="font-semibold text-white">${link.label}</span></div>
                     <img src="${link.img}" class="w-full h-32 object-cover card-img" style="object-position: ${link.objectPosition}" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=Err:${link.img}'">
                 </div>
             `;
         });
 
-        function transition(event, url, label) {
+        function transition(event, url) {
             const card = event.currentTarget;
             const img = card.querySelector('.card-img');
             const rect = img.getBoundingClientRect();
             const transBox = document.getElementById('transition-box');
             const fadeOverlay = document.getElementById('fade-overlay');
-            const frostLayer = document.getElementById('frost-layer');
             
             transBox.src = img.src;
             transBox.style.display = 'block';
@@ -90,23 +84,13 @@
             transBox.style.top = '0px';
             transBox.style.width = '100vw';
             transBox.style.height = '100vh';
-            
-            if (label === "SoundCloud") {
-                // Frost Effect: Cool tint and crystalline filter
-                fadeOverlay.style.backgroundColor = 'rgba(200, 230, 255, 0.6)';
-                frostLayer.style.opacity = '1';
-                transBox.style.filter = 'blur(10px) brightness(1.2) contrast(1.1) saturate(0.8) hue-rotate(180deg)';
-            } else {
-                fadeOverlay.style.backgroundColor = 'black';
-                transBox.style.filter = 'blur(20px)';
-            }
+            transBox.style.filter = 'blur(20px)';
             
             setTimeout(() => { window.location.href = url; }, 750);
         }
 
         window.onpageshow = () => {
             document.getElementById('fade-overlay').style.opacity = '0';
-            document.getElementById('frost-layer').style.opacity = '0';
             document.getElementById('transition-box').style.display = 'none';
         };
     </script>
