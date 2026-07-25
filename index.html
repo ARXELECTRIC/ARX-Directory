@@ -45,7 +45,7 @@
             ]
         };
 
-        document.getElementById('profile-container').innerHTML = `<img src="${CONFIG.profilePic}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/128x128/1e293b/white?text=Arx'">`;
+        document.getElementById('profile-container').innerHTML = `<img src="${CONFIG.profilePic}?t=${Date.now()}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/128x128/1e293b/white?text=Arx'">`;
 
         const socialCont = document.getElementById('social-container');
         CONFIG.socialIcons.forEach(s => socialCont.innerHTML += `<a href="${s.url}" class="hover:opacity-75 transition-opacity">${s.emoji}</a>`);
@@ -55,7 +55,7 @@
             container.innerHTML += `
                 <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-lg shadow-lg border border-white/20" onclick="transition(event, '${link.url}')">
                     <div class="p-4 text-center border-b border-white/10"><span class="font-semibold text-white">${link.label}</span></div>
-                    <img src="${link.img}" class="w-full h-32 object-cover card-img" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=Err:${link.img}'">
+                    <img src="${link.img}?t=${Date.now()}" class="w-full h-32 object-cover card-img" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=Err:${link.img}'">
                 </div>
             `;
         });
