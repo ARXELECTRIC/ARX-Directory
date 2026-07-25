@@ -33,19 +33,20 @@
 
     <script>
         const CONFIG = {
-            profilePic: "profile.png",
+            profilePic: "./profile.png",
             socialIcons: [
-                { emoji: "📸", url: "https://www.instagram.com/arx.cr2" },
-                { emoji: "🎵", url: "https://on.soundcloud.com/CebSMWxtvQeHV45011" }
+                { emoji: "📸", url: "https://www.instagram.com/arx.cr2?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" },
+                { emoji: "🎵", url: "https://on.soundcloud.com/2ymSVGgAF1EK8d2Jis" }
             ],
             links: [
-                { label: "Main Website", url: "https://www.arx-uk.com/home", img: "website.jpg" },
-                { label: "Instagram", url: "https://www.instagram.com/arx.cr2", img: "instagram.jpg" },
-                { label: "SoundCloud", url: "https://on.soundcloud.com/CebSMWxtvQeHV45011", img: "soundcloud.jpg" }
+                { label: "Main Website", url: "https://arx-uk.com/", img: "./website.jpg" },
+                { label: "Instagram", url: "https://www.instagram.com/arx.cr2?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==", img: "./instagram.jpg" },
+                { label: "SoundCloud", url: "https://on.soundcloud.com/2ymSVGgAF1EK8d2Jis", img: "./soundcloud.jpg" }
             ]
         };
 
-        document.getElementById('profile-container').innerHTML = `<img src="${CONFIG.profilePic}?t=${Date.now()}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/128x128/1e293b/white?text=Arx'">`;
+        const profileImg = document.getElementById('profile-container');
+        profileImg.innerHTML = `<img src="${CONFIG.profilePic}?t=${Date.now()}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/128x128/1e293b/white?text=Arx'">`;
 
         const socialCont = document.getElementById('social-container');
         CONFIG.socialIcons.forEach(s => socialCont.innerHTML += `<a href="${s.url}" class="hover:opacity-75 transition-opacity">${s.emoji}</a>`);
@@ -55,7 +56,7 @@
             container.innerHTML += `
                 <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-lg shadow-lg border border-white/20" onclick="transition(event, '${link.url}')">
                     <div class="p-4 text-center border-b border-white/10"><span class="font-semibold text-white">${link.label}</span></div>
-                    <img src="${link.img}?t=${Date.now()}" class="w-full h-32 object-cover card-img" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=Err:${link.img}'">
+                    <img src="${link.img}?t=${Date.now()}" class="w-full h-32 object-cover card-img" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=Err:${link.img.replace('./','')}'">
                 </div>
             `;
         });
