@@ -39,13 +39,12 @@
                 { emoji: "🎵", url: "https://on.soundcloud.com/CebSMWxtvQeHV45011" }
             ],
             links: [
-                { label: "Main Website", url: "https://arx-uk.com", img: "website.jpg" },
+                { label: "Main Website", url: "https://arx-uk.com/home", img: "website.jpg" },
                 { label: "Instagram", url: "https://www.instagram.com/arx.cr2", img: "instagram.jpg" },
-                { label: "SoundCloud", url: "https://on.soundcloud.com/2ymSVGgAF1EK8d2Jis", img: "soundcloud.jpg" }
+                { label: "SoundCloud", url: "https://on.soundcloud.com/CebSMWxtvQeHV45011", img: "soundcloud.jpg" }
             ]
         };
 
-        // Load images without the leading slash to ensure relative pathing works
         document.getElementById('profile-container').innerHTML = `<img src="${CONFIG.profilePic}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/128x128/1e293b/white?text=Arx'">`;
 
         const socialCont = document.getElementById('social-container');
@@ -56,7 +55,7 @@
             container.innerHTML += `
                 <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-lg shadow-lg border border-white/20" onclick="transition(event, '${link.url}')">
                     <div class="p-4 text-center border-b border-white/10"><span class="font-semibold text-white">${link.label}</span></div>
-                    <img src="${link.img}" class="w-full h-32 object-cover card-img" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=404:${link.img}'">
+                    <img src="${link.img}" class="w-full h-32 object-cover card-img" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=Err:${link.img}'">
                 </div>
             `;
         });
