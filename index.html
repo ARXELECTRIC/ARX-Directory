@@ -10,8 +10,7 @@
         body { font-family: 'Inter', sans-serif; background: linear-gradient(-45deg, #1e3a8a, #0ea5e9, #10b981, #f59e0b, #7c3aed); background-size: 400% 400%; animation: gradient 7s ease infinite; min-height: 100vh; overflow-x: hidden; }
         @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .link-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
-        .link-card:hover { transform: translateY(-4px) scale(1.01); }
-        
+        .link-card:hover { transform: translateY(-4px) scale(1.02); }
         #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 0.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; }
         #fade-overlay { position: fixed; inset: 0; background-color: black; z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
     </style>
@@ -23,17 +22,13 @@
 
     <div class="max-w-md mx-auto w-full mt-10">
         <div class="text-center mb-10">
-            <div id="profile-container" class="w-32 h-32 mx-auto rounded-full bg-white/10 border-4 border-white/30 shadow-2xl flex items-center justify-center overflow-hidden mb-5">
-                <!-- Profile image handled by script -->
-            </div>
-            <h1 class="text-3xl font-bold text-white mb-4 tracking-tight">arx.cr2</h1>
+            <!-- Profile Picture -->
+            <div id="profile-container" class="w-32 h-32 mx-auto rounded-full bg-white/10 border-4 border-white/30 shadow-2xl flex items-center justify-center overflow-hidden mb-5"></div>
+            
+            <h1 class="text-3xl font-bold text-white mb-2 tracking-tight">arx.cr2</h1>
             
             <!-- Social Icons -->
-            <div class="flex justify-center gap-6 text-white text-2xl mb-8">
-                <a href="#" class="hover:opacity-75 transition-opacity">📸</a>
-                <a href="#" class="hover:opacity-75 transition-opacity">🎵</a>
-                <a href="#" class="hover:opacity-75 transition-opacity">✖️</a>
-            </div>
+            <div id="social-container" class="flex justify-center gap-6 text-white text-2xl mb-8"></div>
         </div>
 
         <div id="links-container" class="space-y-4"></div>
@@ -43,39 +38,32 @@
 
     <script>
         const CONFIG = {
-            // EDIT YOUR PROFILE PICTURE HERE
             profilePic: "profile.png",
-            
-            // EDIT YOUR LINKS AND BUTTON IMAGES HERE
+            socialIcons: [
+                { emoji: "📸", url: "#" },
+                { emoji: "🎵", url: "#" },
+                { emoji: "✖️", url: "#" }
+            ],
             links: [
-                { 
-                    label: "Main Website", 
-                    url: "https://your-main-website.com", 
-                    img: "website.jpg" 
-                },
-                { 
-                    label: "Instagram", 
-                    url: "https://instagram.com/your-profile", 
-                    img: "instagram.jpg" 
-                },
-                { 
-                    label: "SoundCloud", 
-                    url: "https://soundcloud.com/your-profile", 
-                    img: "soundcloud.jpg" 
-                }
+                { label: "Main Website", url: "https://your-main-website.com", img: "website.jpg" },
+                { label: "SoundCloud", url: "https://soundcloud.com/your-profile", img: "soundcloud.jpg" }
             ]
         };
 
-        document.getElementById('profile-container').innerHTML = `
-            <img src="${CONFIG.profilePic}" alt="Profile" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/128x128/1e293b/white?text=Arx'">
-        `;
+        // Render Profile
+        document.getElementById('profile-container').innerHTML = `<img src="${CONFIG.profilePic}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/128x128/1e293b/white?text=Profile'">`;
 
+        // Render Socials
+        const socialCont = document.getElementById('social-container');
+        CONFIG.socialIcons.forEach(s => socialCont.innerHTML += `<a href="${s.url}" class="hover:opacity-75 transition-opacity">${s.emoji}</a>`);
+
+        // Render Links
         const container = document.getElementById('links-container');
         CONFIG.links.forEach(link => {
             container.innerHTML += `
                 <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-lg shadow-lg border border-white/20" onclick="transition(event, '${link.url}')">
                     <div class="p-4 text-center border-b border-white/10"><span class="font-semibold text-white">${link.label}</span></div>
-                    <img src="${link.img}" class="w-full h-32 object-cover card-img" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=${link.label}'">
+                    <img src="${link.img}" class="w-full h-32 object-cover card-img" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=Image+Err'">
                 </div>
             `;
         });
@@ -106,7 +94,7 @@
             setTimeout(() => { window.location.href = url; }, 750);
         }
 
-        window.onpageshow = (event) => {
+        window.onpageshow = () => {
             document.getElementById('fade-overlay').style.opacity = '0';
             document.getElementById('transition-box').style.display = 'none';
         };
