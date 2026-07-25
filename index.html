@@ -1,9 +1,81 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>My Website</title>
-  </head>
-  <body>
-    <h1>Hello World, welcome to my site!</h1>
-  </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>arx.cr2 | Links</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(-45deg, #1e3a8a, #0ea5e9, #10b981, #f59e0b, #7c3aed);
+            background-size: 400% 400%;
+            animation: gradient 7s ease infinite;
+            min-height: 100vh;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .link-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .link-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="antialiased p-4">
+
+    <div class="max-w-md mx-auto w-full mt-10">
+        <div class="text-center mb-10">
+            <div class="w-32 h-32 mx-auto rounded-full bg-white/10 border-4 border-white/30 shadow-2xl flex items-center justify-center overflow-hidden mb-5">
+                <img src="11.png" alt="Profile" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/128x128/1e293b/white?text=Arx'">
+            </div>
+            <h1 class="text-3xl font-bold text-white mb-1 tracking-tight">arx.cr2</h1>
+        </div>
+
+        <div class="space-y-6">
+            
+            <!-- Main Website Card -->
+            <a href="https://your-main-website.com" class="link-card block overflow-hidden bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-2xl shadow-lg border border-white/20">
+                <div class="p-4 text-center border-b border-white/10">
+                    <span class="font-semibold text-white">Main Website</span>
+                </div>
+                <div class="w-full h-32 bg-gray-800">
+                    <img src="https://placehold.co/600x200/1e293b/white?text=Website+Banner" alt="Main Website Preview" class="w-full h-full object-cover">
+                </div>
+            </a>
+
+            <!-- SoundCloud Card -->
+            <a href="https://soundcloud.com/your-profile" class="link-card block overflow-hidden bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-2xl shadow-lg border border-white/20">
+                <div class="p-4 text-center border-b border-white/10">
+                    <span class="font-semibold text-white">SoundCloud</span>
+                </div>
+                <div class="w-full h-32 bg-orange-500">
+                    <img src="https://placehold.co/600x200/f97316/white?text=SoundCloud+Tracks" alt="SoundCloud Preview" class="w-full h-full object-cover">
+                </div>
+            </a>
+
+            <!-- Discord Server Card -->
+            <a href="https://discord.gg/your-invite" class="link-card block overflow-hidden bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-2xl shadow-lg border border-white/20">
+                <div class="p-4 text-center border-b border-white/10">
+                    <span class="font-semibold text-white">Discord Server</span>
+                </div>
+                <div class="w-full h-32 bg-indigo-500">
+                    <img src="https://placehold.co/600x200/5865F2/white?text=Discord+Community" alt="Discord Preview" class="w-full h-full object-cover">
+                </div>
+            </a>
+
+        </div>
+
+        <div class="mt-12 text-center text-white/50 text-sm">
+            © 2026 arx.cr2
+        </div>
+    </div>
+
+</body>
 </html>
