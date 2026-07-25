@@ -23,8 +23,8 @@
 
     <div class="max-w-md mx-auto w-full mt-10">
         <div class="text-center mb-10">
-            <div class="w-32 h-32 mx-auto rounded-full bg-white/10 border-4 border-white/30 shadow-2xl flex items-center justify-center overflow-hidden mb-5">
-                <img src="11.png" alt="Profile" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/128x128/1e293b/white?text=Arx'">
+            <div id="profile-container" class="w-32 h-32 mx-auto rounded-full bg-white/10 border-4 border-white/30 shadow-2xl flex items-center justify-center overflow-hidden mb-5">
+                <!-- Profile image handled by script -->
             </div>
             <h1 class="text-3xl font-bold text-white mb-4 tracking-tight">arx.cr2</h1>
             
@@ -43,24 +43,32 @@
 
     <script>
         const CONFIG = {
+            // EDIT YOUR PROFILE PICTURE HERE
+            profilePic: "profile.png",
+            
+            // EDIT YOUR LINKS AND BUTTON IMAGES HERE
             links: [
                 { 
                     label: "Main Website", 
                     url: "https://your-main-website.com", 
-                    img: "https://placehold.co/600x200/1e293b/white?text=Main+Website" 
+                    img: "MainWebsite.jpg" 
                 },
                 { 
                     label: "Instagram", 
                     url: "https://instagram.com/your-profile", 
-                    img: "https://placehold.co/600x200/e1306c/white?text=Instagram" 
+                    img: "instagram.jpg" 
                 },
                 { 
                     label: "SoundCloud", 
                     url: "https://soundcloud.com/your-profile", 
-                    img: "https://placehold.co/600x200/f97316/white?text=SoundCloud" 
+                    img: "soundcloud.jpg" 
                 }
             ]
         };
+
+        document.getElementById('profile-container').innerHTML = `
+            <img src="${CONFIG.profilePic}" alt="Profile" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/128x128/1e293b/white?text=Arx'">
+        `;
 
         const container = document.getElementById('links-container');
         CONFIG.links.forEach(link => {
