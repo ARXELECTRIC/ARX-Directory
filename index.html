@@ -11,27 +11,8 @@
         @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .link-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
         .link-card:hover { transform: translateY(-4px) scale(1.02); }
-        
-        /* Smooth zoom transition element styling */
-        #transition-box {
-            position: fixed;
-            z-index: 9999;
-            pointer-events: none;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            object-fit: cover;
-            border-radius: 1rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-        
-        #fade-overlay {
-            position: fixed;
-            inset: 0;
-            background-color: black;
-            z-index: 9998;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.8s ease;
-        }
+        #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 1rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        #fade-overlay { position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
     </style>
 </head>
 <body class="antialiased p-4">
@@ -47,27 +28,43 @@
             <h1 class="text-3xl font-bold text-white mb-1 tracking-tight">arx.cr2</h1>
         </div>
 
-        <div class="space-y-6">
-            <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-2xl shadow-lg border border-white/20" onclick="transition(event, 'https://your-main-website.com')">
-                <div class="p-4 text-center border-b border-white/10"><span class="font-semibold text-white">Main Website</span></div>
-                <img src="https://placehold.co/600x200/1e293b/white?text=Website+Banner" class="w-full h-32 object-cover card-img">
-            </div>
-
-            <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-2xl shadow-lg border border-white/20" onclick="transition(event, 'https://soundcloud.com/your-profile')">
-                <div class="p-4 text-center border-b border-white/10"><span class="font-semibold text-white">SoundCloud</span></div>
-                <img src="https://placehold.co/600x200/f97316/white?text=SoundCloud+Tracks" class="w-full h-32 object-cover card-img">
-            </div>
-
-            <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-2xl shadow-lg border border-white/20" onclick="transition(event, 'https://discord.gg/your-invite')">
-                <div class="p-4 text-center border-b border-white/10"><span class="font-semibold text-white">Discord Server</span></div>
-                <img src="https://placehold.co/600x200/5865F2/white?text=Discord+Community" class="w-full h-32 object-cover card-img">
-            </div>
+        <!-- Links Container -->
+        <div id="links-container" class="space-y-6">
+            <!-- Cards will be injected here by the script below -->
         </div>
 
         <div class="mt-12 text-center text-white/50 text-sm">© 2026 arx.cr2</div>
     </div>
 
     <script>
+        const MY_LINKS = [
+            {
+                label: "Main Website",
+                url: "https://your-main-website.com",
+                img: "https://placehold.co/600x200/1e293b/white?text=Main+Website"
+            },
+            {
+                label: "SoundCloud",
+                url: "https://soundcloud.com/your-profile",
+                img: "https://placehold.co/600x200/f97316/white?text=SoundCloud"
+            },
+            {
+                label: "Discord Server",
+                url: "https://discord.gg/your-invite",
+                img: "https://placehold.co/600x200/5865F2/white?text=Discord"
+            }
+        ];
+
+        const container = document.getElementById('links-container');
+        MY_LINKS.forEach(link => {
+            container.innerHTML += `
+                <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-2xl shadow-lg border border-white/20" onclick="transition(event, '${link.url}')">
+                    <div class="p-4 text-center border-b border-white/10"><span class="font-semibold text-white">${link.label}</span></div>
+                    <img src="${link.img}" class="w-full h-32 object-cover card-img">
+                </div>
+            `;
+        });
+
         function transition(event, url) {
             const card = event.currentTarget;
             const img = card.querySelector('.card-img');
@@ -76,7 +73,6 @@
             const transBox = document.getElementById('transition-box');
             const fadeOverlay = document.getElementById('fade-overlay');
             
-            // Set initial position matching the clicked image
             transBox.src = img.src;
             transBox.style.display = 'block';
             transBox.style.left = rect.left + 'px';
@@ -84,10 +80,8 @@
             transBox.style.width = rect.width + 'px';
             transBox.style.height = rect.height + 'px';
             
-            // Force reflow
             transBox.getBoundingClientRect();
             
-            // Trigger zoom & expansion to fill screen
             fadeOverlay.style.opacity = '1';
             transBox.style.left = '0px';
             transBox.style.top = '0px';
@@ -95,9 +89,7 @@
             transBox.style.height = '100vh';
             transBox.style.borderRadius = '0px';
             
-            setTimeout(() => {
-                window.location.href = url;
-            }, 750);
+            setTimeout(() => { window.location.href = url; }, 750);
         }
     </script>
 </body>
