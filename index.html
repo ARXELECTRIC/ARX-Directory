@@ -11,7 +11,7 @@
         @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .link-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
         .link-card:hover { transform: translateY(-4px); }
-        #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 0px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; }
+        #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 0px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; filter: blur(0px); }
         #fade-overlay { position: fixed; inset: 0; background-color: black; z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
     </style>
 </head>
@@ -40,8 +40,8 @@
             ],
             links: [
                 { label: "Main Website", url: "https://arx-uk.com/home", img: "website.jpg" },
-                { label: "Instagram", url: "https://www.instagram.com/arx.cr2", img: "instagram.jpeg" },
-                { label: "SoundCloud", url: "https://on.soundcloud.com/CebSMWxtvQeHV45011", img: "soundcloud.jpg" }
+                { label: "Instagram", url: "https://www.instagram.com/arx.cr2", img: "instagram.jpg" },
+                { label: "SoundCloud", url: "https://on.soundcloud.com/CebSMWxtvQeHV45011", img: "soundcloud.png" }
             ]
         };
 
@@ -81,6 +81,7 @@
             transBox.style.top = '0px';
             transBox.style.width = '100vw';
             transBox.style.height = '100vh';
+            transBox.style.filter = 'blur(20px)'; /* Apply blur effect */
             
             setTimeout(() => { window.location.href = url; }, 750);
         }
