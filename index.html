@@ -13,11 +13,18 @@
         .link-card:hover { transform: translateY(-4px); }
         #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 0px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; will-change: transform, filter; }
         #fade-overlay { position: fixed; inset: 0; background-color: black; z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
+        /* Frosty pattern for the transition */
+        .frost-layer {
+            position: fixed; inset: 0; z-index: 10000; opacity: 0; pointer-events: none;
+            background: linear-gradient(135deg, rgba(200, 230, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(180, 220, 255, 0.4) 100%);
+            transition: opacity 0.8s ease;
+        }
     </style>
 </head>
 <body class="antialiased p-4">
 
     <div id="fade-overlay"></div>
+    <div id="frost-layer" class="frost-layer"></div>
     <img id="transition-box" src="" alt="">
 
     <div class="max-w-md mx-auto w-full mt-10">
@@ -66,6 +73,7 @@
             const rect = img.getBoundingClientRect();
             const transBox = document.getElementById('transition-box');
             const fadeOverlay = document.getElementById('fade-overlay');
+            const frostLayer = document.getElementById('frost-layer');
             
             transBox.src = img.src;
             transBox.style.display = 'block';
@@ -84,9 +92,10 @@
             transBox.style.height = '100vh';
             
             if (label === "SoundCloud") {
-                fadeOverlay.style.backgroundColor = '#f0f9ff';
-                // Ice effect: blur + crystalline contrast + blue tint + fracture-like distortion
-                transBox.style.filter = 'blur(20px) contrast(200%) brightness(150%) hue-rotate(180deg) saturate(200%)';
+                // Frost Effect: Cool tint and crystalline filter
+                fadeOverlay.style.backgroundColor = 'rgba(200, 230, 255, 0.6)';
+                frostLayer.style.opacity = '1';
+                transBox.style.filter = 'blur(10px) brightness(1.2) contrast(1.1) saturate(0.8) hue-rotate(180deg)';
             } else {
                 fadeOverlay.style.backgroundColor = 'black';
                 transBox.style.filter = 'blur(20px)';
@@ -97,6 +106,7 @@
 
         window.onpageshow = () => {
             document.getElementById('fade-overlay').style.opacity = '0';
+            document.getElementById('frost-layer').style.opacity = '0';
             document.getElementById('transition-box').style.display = 'none';
         };
     </script>
