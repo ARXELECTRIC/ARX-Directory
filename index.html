@@ -9,8 +9,10 @@
     <style>
         body { font-family: 'Inter', sans-serif; background: linear-gradient(-45deg, #1e3a8a, #0ea5e9, #10b981, #f59e0b, #7c3aed); background-size: 400% 400%; animation: gradient 7s ease infinite; min-height: 100vh; overflow-x: hidden; }
         @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
         .link-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
         .link-card:hover { transform: translateY(-4px) scale(1.02); }
+        
         #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 1rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; }
         #fade-overlay { position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
     </style>
@@ -34,21 +36,16 @@
     </div>
 
     <script>
-        // CONFIGURATION AREA: Edit these to change your links
-        const MY_LINKS = [
-            { label: "Main Website", url: "https://your-main-website.com", img: "https://placehold.co/600x200/1e293b/white?text=Website" },
-            { label: "SoundCloud", url: "https://soundcloud.com/your-profile", img: "https://placehold.co/600x200/f97316/white?text=SoundCloud" },
-            { label: "Discord Server", url: "https://discord.gg/your-invite", img: "https://placehold.co/600x200/5865F2/white?text=Discord" }
-        ];
-
-        // Ensure page reset on load (fixes back-button breaking)
-        window.addEventListener('pageshow', () => {
-            document.getElementById('fade-overlay').style.opacity = '0';
-            document.getElementById('transition-box').style.display = 'none';
-        });
+        const CONFIG = {
+            links: [
+                { label: "Main Website", url: "https://your-main-website.com", img: "https://placehold.co/600x200/1e293b/white?text=Website" },
+                { label: "SoundCloud", url: "https://soundcloud.com/your-profile", img: "https://placehold.co/600x200/f97316/white?text=SoundCloud" },
+                { label: "Discord Server", url: "https://discord.gg/your-invite", img: "https://placehold.co/600x200/5865F2/white?text=Discord" }
+            ]
+        };
 
         const container = document.getElementById('links-container');
-        MY_LINKS.forEach(link => {
+        CONFIG.links.forEach(link => {
             container.innerHTML += `
                 <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-2xl shadow-lg border border-white/20" onclick="transition(event, '${link.url}')">
                     <div class="p-4 text-center border-b border-white/10"><span class="font-semibold text-white">${link.label}</span></div>
@@ -83,6 +80,12 @@
             
             setTimeout(() => { window.location.href = url; }, 750);
         }
+
+        window.onpageshow = (event) => {
+            // event.persisted is true if the page is being loaded from the cache
+            document.getElementById('fade-overlay').style.opacity = '0';
+            document.getElementById('transition-box').style.display = 'none';
+        };
     </script>
 </body>
 </html>
