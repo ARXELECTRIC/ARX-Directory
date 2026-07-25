@@ -38,6 +38,8 @@
                 { emoji: "📸", url: "https://www.instagram.com/arx.cr2" },
                 { emoji: "🎵", url: "https://on.soundcloud.com/CebSMWxtvQeHV45011" }
             ],
+            // ADJUST 'objectPosition' BELOW: 
+            // '50% 0%' is top, '50% 50%' is center, '50% 100%' is bottom
             links: [
                 { label: "My Website", url: "https://www.arx-uk.com/home", img: "website.jpg", objectPosition: "50% 50%" },
                 { label: "Instagram", url: "https://www.instagram.com/arx.cr2", img: "instagram.jpeg", objectPosition: "50% 38%" },
@@ -87,11 +89,9 @@
             setTimeout(() => { window.location.href = url; }, 750);
         }
 
-        window.onpageshow = (event) => {
-            if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
-                document.getElementById('fade-overlay').style.opacity = '0';
-                document.getElementById('transition-box').style.display = 'none';
-            }
+        window.onpageshow = () => {
+            document.getElementById('fade-overlay').style.opacity = '0';
+            document.getElementById('transition-box').style.display = 'none';
         };
     </script>
 </body>
