@@ -7,12 +7,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background: linear-gradient(-45deg, #1e3a8a, #0ea5e9, #10b981, #f59e0b, #7c3aed); background-size: 400% 400%; animation: gradient 7s ease infinite; min-height: 100vh; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(-45deg, #1e3a8a, #0ea5e9, #10b981, #f59e0b, #7c3aed); background-size: 400% 400%; animation: gradient 7s ease infinite; min-height: 100vh; }
         @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .link-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
-        .link-card:hover { transform: translateY(-4px) scale(1.02); }
-        #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 0.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; }
-        #fade-overlay { position: fixed; inset: 0; background-color: black; z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
+        .link-card { transition: all 0.3s ease; cursor: pointer; }
+        .link-card:hover { transform: scale(1.01); }
+        #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); object-fit: cover; border-radius: 0.5rem; display: none; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        #fade-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
     </style>
 </head>
 <body class="antialiased p-4">
@@ -21,19 +21,14 @@
     <img id="transition-box" src="" alt="">
 
     <div class="max-w-md mx-auto w-full mt-10">
-        <div class="text-center mb-10">
-            <!-- Profile Picture -->
-            <div id="profile-container" class="w-32 h-32 mx-auto rounded-full bg-white/10 border-4 border-white/30 shadow-2xl flex items-center justify-center overflow-hidden mb-5"></div>
-            
-            <h1 class="text-3xl font-bold text-white mb-2 tracking-tight">arx.cr2</h1>
-            
-            <!-- Social Icons -->
-            <div id="social-container" class="flex justify-center gap-6 text-white text-2xl mb-8"></div>
+        <div class="text-center mb-8">
+            <div id="profile-container" class="w-24 h-24 mx-auto rounded-full bg-white/20 border-2 border-white/30 shadow-xl overflow-hidden mb-4"></div>
+            <h1 class="text-2xl font-bold text-white mb-2">arx.cr2</h1>
+            <div id="social-container" class="flex justify-center gap-6 text-2xl mb-6"></div>
         </div>
 
         <div id="links-container" class="space-y-4"></div>
-
-        <div class="mt-12 text-center text-white/50 text-sm">© 2026 arx.cr2</div>
+        <div class="mt-12 text-center text-white/50 text-xs">© 2026 arx.cr2</div>
     </div>
 
     <script>
@@ -61,9 +56,9 @@
         const container = document.getElementById('links-container');
         CONFIG.links.forEach(link => {
             container.innerHTML += `
-                <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-lg shadow-lg border border-white/20" onclick="transition(event, '${link.url}')">
-                    <div class="p-4 text-center border-b border-white/10"><span class="font-semibold text-white">${link.label}</span></div>
-                    <img src="${link.img}" class="w-full h-32 object-cover card-img" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=Image+Err'">
+                <div class="link-card overflow-hidden bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg" onclick="transition(event, '${link.url}')">
+                    <div class="p-3 text-center border-b border-white/10 text-white font-semibold">${link.label}</div>
+                    <img src="${link.img}" class="w-full h-32 object-cover card-img" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=Err+${link.img}'">
                 </div>
             `;
         });
@@ -82,7 +77,7 @@
             transBox.style.width = rect.width + 'px';
             transBox.style.height = rect.height + 'px';
             
-            transBox.getBoundingClientRect();
+            transBox.getBoundingClientRect(); // Reflow
             
             fadeOverlay.style.opacity = '1';
             transBox.style.left = '0px';
@@ -91,7 +86,7 @@
             transBox.style.height = '100vh';
             transBox.style.borderRadius = '0px';
             
-            setTimeout(() => { window.location.href = url; }, 750);
+            setTimeout(() => { window.location.href = url; }, 600);
         }
 
         window.onpageshow = () => {
