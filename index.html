@@ -11,9 +11,8 @@
         @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .link-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
         .link-card:hover { transform: translateY(-4px); }
-        #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 0px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; filter: blur(0px); }
+        #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 0px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; }
         #fade-overlay { position: fixed; inset: 0; background-color: black; z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
-        .card-img { object-fit: cover; width: 100%; height: 8rem; }
     </style>
 </head>
 <body class="antialiased p-4">
@@ -39,11 +38,12 @@
                 { emoji: "📸", url: "https://www.instagram.com/arx.cr2" },
                 { emoji: "🎵", url: "https://on.soundcloud.com/CebSMWxtvQeHV45011" }
             ],
-            // EDIT 'objectPosition' BELOW: '50% 0%' is top, '50% 50%' is center, '50% 100%' is bottom
+            // ADJUST 'objectPosition' BELOW: 
+            // '50% 0%' is top, '50% 50%' is center, '50% 100%' is bottom
             links: [
-                { label: "Main Website", url: "https://arx-uk.com/home", img: "website.jpg", objectPosition: "50% 0%" },
+                { label: "My Website", url: "https://arx-uk.com/home", img: "website.jpg", objectPosition: "50% 0%" },
                 { label: "Instagram", url: "https://www.instagram.com/arx.cr2", img: "instagram.jpeg", objectPosition: "50% 50%" },
-                { label: "SoundCloud", url: "https://on.soundcloud.com/CebSMWxtvQeHV45011", img: "soundcloud.jpg", objectPosition: "50% 100%" }
+                { label: "SoundCloud", url: "https://on.soundcloud.com/CebSMWxtvQeHV45011", img: "soundcloud.jpg", objectPosition: "50% 50%" }
             ]
         };
 
@@ -57,7 +57,7 @@
             container.innerHTML += `
                 <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-lg shadow-lg border border-white/20" onclick="transition(event, '${link.url}')">
                     <div class="p-4 text-center border-b border-white/10"><span class="font-semibold text-white">${link.label}</span></div>
-                    <img src="${link.img}" class="card-img" style="object-position: ${link.objectPosition};" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=Err:${link.img}'">
+                    <img src="${link.img}" class="w-full h-32 object-cover card-img" style="object-position: ${link.objectPosition}" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=Err:${link.img}'">
                 </div>
             `;
         });
