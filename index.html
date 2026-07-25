@@ -11,14 +11,14 @@
         @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .link-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
         .link-card:hover { transform: translateY(-4px) scale(1.02); }
-        #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 1rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 1rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; }
         #fade-overlay { position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
     </style>
 </head>
 <body class="antialiased p-4">
 
     <div id="fade-overlay"></div>
-    <img id="transition-box" style="display: none;" src="" alt="">
+    <img id="transition-box" src="" alt="">
 
     <div class="max-w-md mx-auto w-full mt-10">
         <div class="text-center mb-10">
@@ -28,32 +28,24 @@
             <h1 class="text-3xl font-bold text-white mb-1 tracking-tight">arx.cr2</h1>
         </div>
 
-        <!-- Links Container -->
-        <div id="links-container" class="space-y-6">
-            <!-- Cards will be injected here by the script below -->
-        </div>
+        <div id="links-container" class="space-y-6"></div>
 
         <div class="mt-12 text-center text-white/50 text-sm">© 2026 arx.cr2</div>
     </div>
 
     <script>
+        // CONFIGURATION AREA: Edit these to change your links
         const MY_LINKS = [
-            {
-                label: "Main Website",
-                url: "https://your-main-website.com",
-                img: "https://placehold.co/600x200/1e293b/white?text=Main+Website"
-            },
-            {
-                label: "SoundCloud",
-                url: "https://soundcloud.com/your-profile",
-                img: "https://placehold.co/600x200/f97316/white?text=SoundCloud"
-            },
-            {
-                label: "Discord Server",
-                url: "https://discord.gg/your-invite",
-                img: "https://placehold.co/600x200/5865F2/white?text=Discord"
-            }
+            { label: "Main Website", url: "https://your-main-website.com", img: "https://placehold.co/600x200/1e293b/white?text=Website" },
+            { label: "SoundCloud", url: "https://soundcloud.com/your-profile", img: "https://placehold.co/600x200/f97316/white?text=SoundCloud" },
+            { label: "Discord Server", url: "https://discord.gg/your-invite", img: "https://placehold.co/600x200/5865F2/white?text=Discord" }
         ];
+
+        // Ensure page reset on load (fixes back-button breaking)
+        window.addEventListener('pageshow', () => {
+            document.getElementById('fade-overlay').style.opacity = '0';
+            document.getElementById('transition-box').style.display = 'none';
+        });
 
         const container = document.getElementById('links-container');
         MY_LINKS.forEach(link => {
