@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>arx.cr2 | Links</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background: linear-gradient(-45deg, #1e3a8a, #0ea5e9, #10b981, #f59e0b, #7c3aed); background-size: 400% 400%; animation: gradient 7s ease infinite; min-height: 100vh; overflow-x: hidden; }
@@ -14,14 +13,12 @@
         .link-card:hover { transform: translateY(-4px); }
         #transition-box { position: fixed; z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); object-fit: cover; border-radius: 0px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); display: none; }
         #fade-overlay { position: fixed; inset: 0; background-color: black; z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
-        #webgl-canvas { position: fixed; inset: 0; z-index: 10000; pointer-events: none; opacity: 0; transition: opacity 0.5s ease; }
     </style>
 </head>
 <body class="antialiased p-4">
 
     <div id="fade-overlay"></div>
     <img id="transition-box" src="" alt="">
-    <canvas id="webgl-canvas"></canvas>
 
     <div class="max-w-md mx-auto w-full mt-10">
         <div class="text-center mb-8">
@@ -34,22 +31,6 @@
         <div class="mt-12 text-center text-white/50 text-xs">© 2026 arx.cr2</div>
     </div>
 
-    <script id="frost-vs" type="x-shader/x-vertex">
-        varying vec2 vUv;
-        void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
-    </script>
-    <script id="frost-fs" type="x-shader/x-fragment">
-        uniform float uTime;
-        varying vec2 vUv;
-        void main() {
-            vec2 uv = vUv * 10.0;
-            float frost = sin(uv.x * 2.0 + uTime) * cos(uv.y * 2.0 + uTime);
-            frost += sin((uv.x + uv.y) * 5.0 - uTime * 2.0);
-            vec3 iceColor = vec3(0.6, 0.8, 1.0);
-            gl_FragColor = vec4(iceColor, smoothstep(0.2, 0.8, frost) * 0.6);
-        }
-    </script>
-
     <script>
         const CONFIG = {
             profilePic: "profile.png",
@@ -57,54 +38,31 @@
                 { emoji: "📸", url: "https://www.instagram.com/arx.cr2" },
                 { emoji: "🎵", url: "https://on.soundcloud.com/CebSMWxtvQeHV45011" }
             ],
+            // ADJUST 'objectPosition' BELOW: 
+            // '50% 0%' is top, '50% 50%' is center, '50% 100%' is bottom
             links: [
-                { label: "My Website", url: "https://arx-uk.com/home", img: "website.jpg", objectPosition: "50% 50%" },
+                { label: "My Website", url: "https://www.arx-uk.com/home", img: "website.jpg", objectPosition: "50% 50%" },
                 { label: "Instagram", url: "https://www.instagram.com/arx.cr2", img: "instagram.jpeg", objectPosition: "50% 38%" },
                 { label: "SoundCloud", url: "https://on.soundcloud.com/CebSMWxtvQeHV45011", img: "soundcloud.png", objectPosition: "50% 30%" }
             ]
         };
 
-        // Initialize Three.js Frost Scene
-        let scene, camera, renderer, material, startTime;
-        function initFrost() {
-            const canvas = document.getElementById('webgl-canvas');
-            scene = new THREE.Scene();
-            camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-            renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            const geometry = new THREE.PlaneGeometry(2, 2);
-            material = new THREE.ShaderMaterial({
-                uniforms: { uTime: { value: 0 } },
-                vertexShader: document.getElementById('frost-vs').textContent,
-                fragmentShader: document.getElementById('frost-fs').textContent,
-                transparent: true
-            });
-            scene.add(new THREE.Mesh(geometry, material));
-            startTime = Date.now();
-        }
-
-        function animateFrost() {
-            requestAnimationFrame(animateFrost);
-            material.uniforms.uTime.value = (Date.now() - startTime) * 0.002;
-            renderer.render(scene, camera);
-        }
-
-        // Render UI
         document.getElementById('profile-container').innerHTML = `<img src="${CONFIG.profilePic}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/128x128/1e293b/white?text=Arx'">`;
+
         const socialCont = document.getElementById('social-container');
         CONFIG.socialIcons.forEach(s => socialCont.innerHTML += `<a href="${s.url}" class="hover:opacity-75 transition-opacity">${s.emoji}</a>`);
 
         const container = document.getElementById('links-container');
         CONFIG.links.forEach(link => {
             container.innerHTML += `
-                <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-lg shadow-lg border border-white/20" onclick="transition(event, '${link.url}', '${link.label}')">
+                <div class="link-card block overflow-hidden bg-white/10 backdrop-blur-md rounded-lg shadow-lg border border-white/20" onclick="transition(event, '${link.url}')">
                     <div class="p-4 text-center border-b border-white/10"><span class="font-semibold text-white">${link.label}</span></div>
                     <img src="${link.img}" class="w-full h-32 object-cover card-img" style="object-position: ${link.objectPosition}" onerror="this.src='https://placehold.co/600x200/1e293b/white?text=Err:${link.img}'">
                 </div>
             `;
         });
 
-        function transition(event, url, label) {
+        function transition(event, url) {
             const card = event.currentTarget;
             const img = card.querySelector('.card-img');
             const rect = img.getBoundingClientRect();
@@ -121,19 +79,12 @@
             
             transBox.getBoundingClientRect(); 
             
-            if (label === "SoundCloud") {
-                document.getElementById('webgl-canvas').style.opacity = '1';
-                initFrost();
-                animateFrost();
-            } else {
-                fadeOverlay.style.opacity = '1';
-            }
-            
+            fadeOverlay.style.opacity = '1';
             transBox.style.left = '0px';
             transBox.style.top = '0px';
             transBox.style.width = '100vw';
             transBox.style.height = '100vh';
-            transBox.style.filter = 'blur(10px) brightness(1.2)';
+            transBox.style.filter = 'blur(20px)';
             
             setTimeout(() => { window.location.href = url; }, 750);
         }
